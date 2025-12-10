@@ -1,0 +1,60 @@
+body{
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}
+
+#buttons{
+    display: grid;
+    grid-template-columns: repeat(4, 60px);
+    grid-template-rows: repeat(5, 60px);
+    border: solid 1px black;
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 5px;
+}
+
+button{
+    margin : 5px;
+    border-radius: 10px;
+    border: none;
+}
+
+button:hover{
+    border: solid 1px black;
+}
+
+#display{
+    display: flex;
+    justify-content: center;
+    font-size: x-large;
+    font-weight: bold;
+    padding: 10px;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.btn-number{
+    
+}
+
+.btn-operator{
+    
+}
+
+#btn-clear{
+    
+}
+
+#btn-zero{
+    grid-column: span 2;
+}
+
+#btn-equal{
+    grid-row: span 2;
+}
+
+#btn-plus{
+    grid-row: span 2;
+}
+
