@@ -159,6 +159,9 @@ function gestionNumbers(number) {
 }
 
 function gestionPoint(){
+    if(resetDisplay){
+        return;
+    }
     if(".+-*/".includes(lastDigit)) {
         return;
     }
