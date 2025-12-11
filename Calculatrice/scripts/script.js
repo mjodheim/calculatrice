@@ -14,6 +14,7 @@ let result = 0;
 let lastNumber = '';
 let lastOperator = '';
 let counter = 0;
+let resetDisplay = false;
 
 /* ----- GESTION DES EVENTS ----- */
 
@@ -46,6 +47,7 @@ clear.addEventListener("click", function() {
 equal.addEventListener("click", function() {
     if (parseFloat(lastNumber) === 0){
         display.textContent = "Division pas zéro interdite !";
+        resetDisplay = true;
         return;
     }
     testOperator(lastOperator);
@@ -64,6 +66,7 @@ document.addEventListener("keydown", function(key) {
     if (key.key === "Enter"){
         if (parseFloat(lastNumber) === 0){
             display.textContent = "Division pas zéro interdite !";
+            resetDisplay = true;
             return;
         }
         testOperator(lastOperator);
@@ -119,6 +122,9 @@ function testOperator(operator) {
 }
 
 function gestionOperators(operator){
+    if(resetDisplay){
+        return;
+    }
     if("+-*/.".includes(lastDigit)) {
         return;
     }
@@ -136,6 +142,11 @@ function gestionOperators(operator){
 }
 
 function gestionNumbers(number) {
+    if(resetDisplay){
+        display.textContent = '';
+        reinit();
+        resetDisplay = false;
+    }
     if(display.textContent === '0'){
         display.textContent = number;
         lastNumber += number;
