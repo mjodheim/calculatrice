@@ -110,7 +110,6 @@ equal.addEventListener("click", function() {
     }
 
     display.textContent = result.toString();
-    console.log(lastNumber);
     /* Remise à zéro */
     lastDigit = display.textContent.substring(display.textContent.length - 1, display.textContent.length);
     result = 0;
@@ -118,3 +117,16 @@ equal.addEventListener("click", function() {
     lastOperator = '';
     counter = 0;
 })
+
+let displayMode = document.getElementById("display-mode");
+displayMode.addEventListener("click", function() {
+    if(displayMode.innerText === "Basculer en mode sombre"){
+        document.getElementsByTagName('body')[0].style.backgroundColor = 'darkblue';
+        displayMode.innerText = 'Basculer en mode clair';
+    }
+    else{
+        document.getElementsByTagName('body')[0].style.backgroundColor = 'lightblue';
+        displayMode.innerText = 'Basculer en mode sombre';
+    }
+})
+

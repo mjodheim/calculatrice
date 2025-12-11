@@ -1,7 +1,15 @@
 body{
-    display: flex;
     justify-content: center;
     margin: 20px;
+    background-color: lightblue;
+}
+
+#calculator{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    width: fit-content;
 }
 
 #buttons{
@@ -12,12 +20,33 @@ body{
     padding: 10px;
     border-radius: 10px;
     margin-top: 5px;
+    background-color: lightslategray;
+}
+
+#display-mode:hover{
+    cursor: pointer;
+}
+
+#display-mode{
+    display: flex;
+    padding: 10px;
+    width: fit-content;
+    justify-content: right;
+    flex-direction: row-reverse;
+    margin : 5px;
+    border-radius: 10px;
+    border: none;
+    font-size: large;
+    font-weight: bold;
+    color: aliceblue;
+    background-color: lightslategray;
 }
 
 button{
     margin : 5px;
     border-radius: 10px;
     border: none;
+    background-color: aliceblue;
 }
 
 button:hover{
@@ -32,6 +61,8 @@ button:hover{
     padding: 10px;
     border: 1px solid black;
     border-radius: 10px;
+    background-color: lightslategray;
+    color: aliceblue;
 }
 
 .btn-number{
