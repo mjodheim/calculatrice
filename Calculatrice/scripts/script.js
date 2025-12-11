@@ -12,6 +12,7 @@ let lastDigit = display.textContent.substring(display.textContent.length - 1, di
 let result = 0; // le résultat incrémentiel
 let lastNumber = ''; // le dernier nombre
 let lastOperator = ''; // le dernier opérateur utilisé afin de calculer la somme totale
+let counter = 0;
 
 /* Affichage des nombres */
 // Attention à la valeur de départ et à bien concaténer
@@ -37,31 +38,33 @@ operators.forEach(operator => {
         if("+-*/.".includes(lastDigit)) {
             return;
         }
-        lastOperator = operator.textContent;
-        // Calculer le résultat en fonction de l'opérateur
-        switch(lastOperator) {
-            case "-":
-                result -= parseInt(lastNumber);
-                break;
-            case "+":
-                result += parseInt(lastNumber);
-                break;
-            case "*":
-                result *= parseInt(lastNumber);
-                break;
-            case "/":
-                result /= parseInt(lastNumber);
-                break;
-            default:
-                display.textContent = 'ERROR';
+        if(counter === 0){
+            result = parseFloat(display.textContent);
         }
-        
-        console.log(result);
-        
+        else{
+            switch(lastOperator) {
+                case "-":
+                    result -= parseFloat(lastNumber);
+                    break;
+                case "+":
+                    result += parseFloat(lastNumber);
+                    break;
+                case "*":
+                    result *= parseFloat(lastNumber);
+                    break;
+                case "/":
+                    result /= parseFloat(lastNumber);
+                    break;
+                default:
+                    display.textContent = 'ERROR';
+                    break;
+            }
+        }
+        lastOperator = operator.textContent;
         display.textContent += operator.textContent;
-        // mise à jour de lastValue
         lastDigit = display.textContent.substring(display.textContent.length - 1, display.textContent.length);
         lastNumber = '';
+        counter ++;
     })
 })
 
@@ -73,6 +76,7 @@ point.addEventListener("click", function() {
     }
     display.textContent += point.textContent;
     lastDigit = display.textContent.substring(display.textContent.length - 1, display.textContent.length);
+    lastNumber += '.';
 })
 
 /* Comportement du bouton Clear */
@@ -89,23 +93,28 @@ clear.addEventListener("click", function() {
 equal.addEventListener("click", function() {
     switch(lastOperator) {
         case "-":
-            result -= parseInt(lastNumber);
+            result -= parseFloat(lastNumber);
             break;
         case "+":
-            result += parseInt(lastNumber);
+            result += parseFloat(lastNumber);
             break;
         case "*":
-            result *= parseInt(lastNumber);
+            result *= parseFloat(lastNumber);
             break;
         case "/":
-            result /= parseInt(lastNumber);
+            result /= parseFloat(lastNumber);
             break;
         default:
             display.textContent = 'ERROR';
+            break;
     }
+
     display.textContent = result.toString();
+    console.log(lastNumber);
+    /* Remise à zéro */
     lastDigit = display.textContent.substring(display.textContent.length - 1, display.textContent.length);
-    lastNumber = result.toString();
-    // On change l'opérateur pour pouvoir remettre l'affichage à '0' au prochain clic sur un nombre
-    lastDigit = '=';
+    result = 0;
+    lastNumber = '';
+    lastOperator = '';
+    counter = 0;
 })
