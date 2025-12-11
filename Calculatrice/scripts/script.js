@@ -89,12 +89,18 @@ displayMode.addEventListener("click", function() {
         document.getElementsByTagName('body')[0].style.backgroundColor = '#142d3a';
         document.getElementsByTagName('footer')[0].style.color = 'Aliceblue';
         document.getElementsByTagName('a')[0].style.color = 'Aliceblue';
+        operators.forEach(operator => {
+            operator.style.backgroundColor = 'darkorange';
+        })
         displayMode.innerText = 'Basculer en mode clair';
     }
     else{
         document.getElementsByTagName('body')[0].style.backgroundColor = 'lightblue';
         displayMode.innerText = 'Basculer en mode sombre';
         document.getElementsByTagName('footer')[0].style.color = 'black';
+        operators.forEach(operator => {
+            operator.style.backgroundColor = 'gold';
+        })
         document.getElementsByTagName('a')[0].style.color = '#142d3a';
     }
 })
@@ -162,7 +168,7 @@ function gestionPoint(){
     if(resetDisplay){
         return;
     }
-    if(".+-*/".includes(lastDigit) || display.textContent.includes('.')) {
+    if(".+-*/".includes(lastDigit) || lastNumber.includes('.')) {
         return;
     }
     display.textContent += point.textContent;
