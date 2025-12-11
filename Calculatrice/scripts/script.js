@@ -1,4 +1,4 @@
-/* On commence par récupérer les éléments */
+/* ----- RECUPERATION DES ELEMENTS ----- */
 let display = document.getElementById("display");
 
 let numbers = document.querySelectorAll(".btn-number");
@@ -8,90 +8,87 @@ let equal = document.getElementById("btn-equal");
 let clear = document.getElementById("btn-clear");
 let point = document.getElementById("btn-point");
 
+/* ----- INITIALISATION DES VARIABLES GLOBALES ----- */
 let lastDigit = display.textContent.substring(display.textContent.length - 1, display.textContent.length);
-let result = 0; // le résultat incrémentiel
-let lastNumber = ''; // le dernier nombre
-let lastOperator = ''; // le dernier opérateur utilisé afin de calculer la somme totale
+let result = 0;
+let lastNumber = '';
+let lastOperator = '';
 let counter = 0;
 
-/* Affichage des nombres */
-// Attention à la valeur de départ et à bien concaténer
+/* ----- GESTION DES EVENTS ----- */
 
+// Event sur click number
 numbers.forEach(number => {
     number.addEventListener("click", function() {
-        if(display.textContent === '0'){
-            display.textContent = number.textContent;
-            lastNumber += number.textContent;
-        }
-        else{
-            display.textContent += number.textContent;
-            lastDigit = display.textContent.substring(display.textContent.length - 1, display.textContent.length);
-            lastNumber += number.textContent;
-        }
+        gestionNumbers(number.textContent);
     })
 })
 
-/* Affichage des opérateurs avec vérification double opération */
-
+// Event sur click operator
 operators.forEach(operator => {
     operator.addEventListener("click", function() {
-        if("+-*/.".includes(lastDigit)) {
-            return;
-        }
-        if(counter === 0){
-            result = parseFloat(display.textContent);
-        }
-        else{
-            switch(lastOperator) {
-                case "-":
-                    result -= parseFloat(lastNumber);
-                    break;
-                case "+":
-                    result += parseFloat(lastNumber);
-                    break;
-                case "*":
-                    result *= parseFloat(lastNumber);
-                    break;
-                case "/":
-                    result /= parseFloat(lastNumber);
-                    break;
-                default:
-                    display.textContent = 'ERROR';
-                    break;
-            }
-        }
-        lastOperator = operator.textContent;
-        display.textContent += operator.textContent;
-        lastDigit = display.textContent.substring(display.textContent.length - 1, display.textContent.length);
-        lastNumber = '';
-        counter ++;
+        gestionOperators(operator.textContent);
     })
 })
 
-/* Comportement de la virgule */
-
+// Event sur click point
 point.addEventListener("click", function() {
-    if(".+-*/".includes(lastDigit)) {
-        return;
-    }
-    display.textContent += point.textContent;
-    lastDigit = display.textContent.substring(display.textContent.length - 1, display.textContent.length);
-    lastNumber += '.';
+    gestionPoint();
 })
 
-/* Comportement du bouton Clear */
-
+// Event sur click clear
 clear.addEventListener("click", function() {
-    result = 0;
-    lastNumber = '';
-    lastDigit = display.textContent.substring(display.textContent.length - 1, display.textContent.length);
+    reinit();
     display.textContent = "0";
 })
 
-/* Comportement du bouton de résultat. Pour le moment, on efface le display pour afficher le résultat */
-
+// Event sur click equal
 equal.addEventListener("click", function() {
-    switch(lastOperator) {
+    testOperator(lastOperator);
+    display.textContent = result.toString();
+    reinit();
+})
+
+// Event sur keypress
+document.addEventListener("keydown", function(key) {
+    console.log(key.key);
+    if (('123456789').includes(key.key)) {
+        gestionNumbers(key.key.toString());
+    }
+    if (('+-*/').includes(key.key)) {
+        gestionOperators(key.key.toString());
+    }
+    if (key.key === "Enter"){
+        testOperator(lastOperator);
+        display.textContent = result.toString();
+        reinit();
+    }
+    if(key.key === "."){
+        gestionPoint();
+    }
+    if(key.key === "Delete"){
+        reinit();
+        display.textContent = "0";
+    }
+})
+
+/* ----- GESTION DU DARK MODE ----- */
+let displayMode = document.getElementById("display-mode");
+displayMode.addEventListener("click", function() {
+    if(displayMode.innerText === "Basculer en mode sombre"){
+        document.getElementsByTagName('body')[0].style.backgroundColor = 'darkblue';
+        displayMode.innerText = 'Basculer en mode clair';
+    }
+    else{
+        document.getElementsByTagName('body')[0].style.backgroundColor = 'lightblue';
+        displayMode.innerText = 'Basculer en mode sombre';
+    }
+})
+
+/* ----- FONCTIONS ----- */
+
+function testOperator(operator) {
+    switch(operator) {
         case "-":
             result -= parseFloat(lastNumber);
             break;
@@ -108,25 +105,50 @@ equal.addEventListener("click", function() {
             display.textContent = 'ERROR';
             break;
     }
+}
 
-    display.textContent = result.toString();
-    /* Remise à zéro */
+function gestionOperators(operator){
+    if("+-*/.".includes(lastDigit)) {
+        return;
+    }
+    if(counter === 0){
+        result = parseFloat(display.textContent);
+    }
+    else{
+        testOperator(lastOperator);
+    }
+    lastOperator = operator;
+    display.textContent += operator;
+    lastDigit = display.textContent.substring(display.textContent.length - 1, display.textContent.length);
+    lastNumber = '';
+    counter ++;
+}
+
+function gestionNumbers(number) {
+    if(display.textContent === '0'){
+        display.textContent = number;
+        lastNumber += number;
+    }
+    else{
+        display.textContent += number;
+        lastDigit = display.textContent.substring(display.textContent.length - 1, display.textContent.length);
+        lastNumber += number;
+    }
+}
+
+function gestionPoint(){
+    if(".+-*/".includes(lastDigit)) {
+        return;
+    }
+    display.textContent += point.textContent;
+    lastDigit = display.textContent.substring(display.textContent.length - 1, display.textContent.length);
+    lastNumber += '.';
+}
+
+function reinit(){
     lastDigit = display.textContent.substring(display.textContent.length - 1, display.textContent.length);
     result = 0;
     lastNumber = '';
     lastOperator = '';
     counter = 0;
-})
-
-let displayMode = document.getElementById("display-mode");
-displayMode.addEventListener("click", function() {
-    if(displayMode.innerText === "Basculer en mode sombre"){
-        document.getElementsByTagName('body')[0].style.backgroundColor = 'darkblue';
-        displayMode.innerText = 'Basculer en mode clair';
-    }
-    else{
-        document.getElementsByTagName('body')[0].style.backgroundColor = 'lightblue';
-        displayMode.innerText = 'Basculer en mode sombre';
-    }
-})
-
+}
