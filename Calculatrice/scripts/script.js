@@ -45,7 +45,7 @@ clear.addEventListener("click", function() {
 
 // Event sur click equal
 equal.addEventListener("click", function() {
-    if (parseFloat(lastNumber) === 0){
+    if (parseFloat(lastNumber) === 0 && lastOperator === "/") {
         display.textContent = "Division pas zéro interdite !";
         resetDisplay = true;
         return;
@@ -64,7 +64,7 @@ document.addEventListener("keydown", function(key) {
         gestionOperators(key.key.toString());
     }
     if (key.key === "Enter"){
-        if (parseFloat(lastNumber) === 0){
+        if (parseFloat(lastNumber) === 0 && lastOperator === "/") {
             display.textContent = "Division pas zéro interdite !";
             resetDisplay = true;
             return;
@@ -162,7 +162,7 @@ function gestionPoint(){
     if(resetDisplay){
         return;
     }
-    if(".+-*/".includes(lastDigit)) {
+    if(".+-*/".includes(lastDigit) || display.textContent.includes('.')) {
         return;
     }
     display.textContent += point.textContent;
