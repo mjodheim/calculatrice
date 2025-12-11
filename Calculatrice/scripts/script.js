@@ -44,21 +44,28 @@ clear.addEventListener("click", function() {
 
 // Event sur click equal
 equal.addEventListener("click", function() {
+    if (parseFloat(lastNumber) === 0){
+        display.textContent = "Division pas zéro interdite !";
+        return;
+    }
     testOperator(lastOperator);
     display.textContent = result.toString();
     reinit();
 })
 
-// Event sur keypress
+// Event sur key
 document.addEventListener("keydown", function(key) {
-    console.log(key.key);
-    if (('123456789').includes(key.key)) {
+    if (('1234567890').includes(key.key)) {
         gestionNumbers(key.key.toString());
     }
     if (('+-*/').includes(key.key)) {
         gestionOperators(key.key.toString());
     }
     if (key.key === "Enter"){
+        if (parseFloat(lastNumber) === 0){
+            display.textContent = "Division pas zéro interdite !";
+            return;
+        }
         testOperator(lastOperator);
         display.textContent = result.toString();
         reinit();
@@ -76,12 +83,16 @@ document.addEventListener("keydown", function(key) {
 let displayMode = document.getElementById("display-mode");
 displayMode.addEventListener("click", function() {
     if(displayMode.innerText === "Basculer en mode sombre"){
-        document.getElementsByTagName('body')[0].style.backgroundColor = 'darkblue';
+        document.getElementsByTagName('body')[0].style.backgroundColor = '#142d3a';
+        document.getElementsByTagName('footer')[0].style.color = 'Aliceblue';
+        document.getElementsByTagName('a')[0].style.color = 'Aliceblue';
         displayMode.innerText = 'Basculer en mode clair';
     }
     else{
         document.getElementsByTagName('body')[0].style.backgroundColor = 'lightblue';
         displayMode.innerText = 'Basculer en mode sombre';
+        document.getElementsByTagName('footer')[0].style.color = 'black';
+        document.getElementsByTagName('a')[0].style.color = '#142d3a';
     }
 })
 

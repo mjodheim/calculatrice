@@ -65,18 +65,6 @@ button:hover{
     color: aliceblue;
 }
 
-.btn-number{
-    
-}
-
-.btn-operator{
-    
-}
-
-#btn-clear{
-    
-}
-
 #btn-zero{
     grid-column: span 2;
 }
@@ -89,3 +77,11 @@ button:hover{
     grid-row: span 2;
 }
 
+footer{
+    position: fixed;
+    bottom: 20px;
+}
+
+footer a{
+    color: #142d3a;
+}
